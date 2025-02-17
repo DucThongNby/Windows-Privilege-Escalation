@@ -259,7 +259,7 @@ klist
 
 ***Dùng Ticket để đăng nhập***
 
-
+![Ticket](https://github.com/user-attachments/assets/4bcecd00-db1a-474b-b0aa-35a38e14b040)
 
 
 
