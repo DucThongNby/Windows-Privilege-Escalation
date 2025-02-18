@@ -2,7 +2,7 @@
 Leo thang đặc quyền để có được tài liệu và quyền 
 
 ## Mục lục
-- [Tạo môi trường]([https://github.com/DucThongNby/Windows-Privilege-Escalation/edit/main/README.md#thay-%C4%91%E1%BB%95i-ch%C3%ADnh-s%C3%A1ch-th%E1%BB%B1c-thi](https://github.com/DucThongNby/Windows-Privilege-Escalation/tree/main?tab=readme-ov-file#t%E1%BA%A1o-m%C3%B4i-tr%C6%B0%E1%BB%9Dng))
+- [Tạo môi trường](https://github.com/DucThongNby/Windows-Privilege-Escalation/edit/main/README.md#thay-%C4%91%E1%BB%95i-ch%C3%ADnh-s%C3%A1ch-th%E1%BB%B1c-thi](https://github.com/DucThongNby/Windows-Privilege-Escalation/tree/main?tab=readme-ov-file#t%E1%BA%A1o-m%C3%B4i-tr%C6%B0%E1%BB%9Dng))
 - [Quét cổng và máy, lấy thông tin nạn nhân đầu tiên](https://github.com/DucThongNby/Windows-Privilege-Escalation/tree/main?tab=readme-ov-file#qu%C3%A9t-c%E1%BB%95ng-v%C3%A0-m%C3%A1y-l%E1%BA%A5y-th%C3%B4ng-tin-n%E1%BA%A1n-nh%C3%A2n-%C4%91%E1%BA%A7u-ti%C3%AAn)
 - [Liệt kê người dùng trong domain](https://github.com/DucThongNby/Windows-Privilege-Escalation/tree/main?tab=readme-ov-file#li%E1%BB%87t-k%C3%AA-ng%C6%B0%E1%BB%9Di-d%C3%B9ng-trong-domain)
 - [Tấn công không yêu cầu xác thực trước](https://github.com/DucThongNby/Windows-Privilege-Escalation/tree/main?tab=readme-ov-file#t%E1%BA%A5n-c%C3%B4ng-kh%C3%B4ng-y%C3%AAu-c%E1%BA%A7u-x%C3%A1c-th%E1%BB%B1c-tr%C6%B0%E1%BB%9Bc)
